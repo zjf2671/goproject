@@ -18,6 +18,9 @@ func main() {
 
 	printString(p)
 
+	p4 := NewPerson("xttt")
+	fmt.Println(p4.name)
+
 }
 
 type person struct {
@@ -41,4 +44,37 @@ func (p person) String() string {
 
 func printString(s fmt.Stringer) {
 	fmt.Println(s.String())
+	fmt.Println(s)
+}
+
+func NewPerson(name string) *person {
+	return &person{name: name}
+}
+
+//结构体，内部一个字段s，存储错误信息
+type errorString struct {
+	s    string
+	code int
+}
+
+//用于实现error接口
+func (e errorString) Error() string {
+	return e.s
+}
+
+//工厂函数，返回一个error接口，其实具体实现是*errorString
+func New(text string) error {
+	return &errorString{text, 1002}
+}
+
+type WalkRun interface {
+	Walk()
+	Run()
+}
+
+func (p *person) Walk() {
+	fmt.Printf("%s能走\n", p.name)
+}
+func (p *person) Run() {
+	fmt.Printf("%s能跑\n", p.name)
 }
